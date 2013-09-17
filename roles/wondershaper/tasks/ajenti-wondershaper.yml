@@ -1,11 +1,15 @@
-- name: install custom reconfigure
-  pip: name='https://github.com/migonzalvar/reconfigure/archive/0.1.23-0migonzalvar0.zip'
-       extra_args='-I'
+- name: prepare folder to install wondershaper ajenti plugin
+  file: path=/var/lib/ajenti/ajenti-plugin-wondershaper
+        state=directory
+        group=root
+        owner=root
+
+- name: download wondershaper ajenti plugin
+  get_url: url=https://github.com/migonzalvar/ajenti-plugin-wondershaper/archive/0.2.tar.gz
+           dest=/tmp/ajenti-plugin-wondershaper-0.2.tar.gz
 
 - name: install wondershaper ajenti plugin
-  git: repo=git://github.com/migonzalvar/ajenti-plugin-wondershaper.git
-       version=0.1.0
-       dest=/var/lib/ajenti/ajenti-plugin-wondershaper
+  command: tar -xzf /tmp/ajenti-plugin-wondershaper-0.2.tar.gz -C /var/lib/ajenti/ajenti-plugin-wondershaper --strip-components 1 --overwrite --overwrite-dir
 
 - name: link to plugin
   file: state=link
